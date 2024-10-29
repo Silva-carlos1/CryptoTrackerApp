@@ -22,6 +22,7 @@ import com.dev.cryptotracker.ui.theme.CryptoTrackerTheme
 @Composable
 fun CoinListScreen(
     state: CoinListState,
+    onAction: (CoinListActions) -> Unit,
     modifier: Modifier = Modifier
 ) {
     if(state.isLoading) {
@@ -41,7 +42,9 @@ fun CoinListScreen(
             items(state.coins) { coinUi ->
                 CoinListItem(
                     coinUi = coinUi,
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        onAction(CoinListActions.OnCoinClick(coinUi))
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
                 HorizontalDivider()
@@ -52,14 +55,15 @@ fun CoinListScreen(
 
 @PreviewLightDark
 @Composable
-private fun CoinLisScreenPreview() {
+private fun CoinListScreenPreview() {
     CryptoTrackerTheme {
         CoinListScreen(
             state = CoinListState(
-                coins = (1 .. 10).map {
+                coins = (1..10).map {
                     previewCoin.copy(id = it.toString())
                 }
             ),
+            onAction = {},
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
         )
